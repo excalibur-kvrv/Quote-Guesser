@@ -13,19 +13,21 @@ def play_game():
 	author=random_quote[0]
 	print(f"Here's a quote:\n{random_quote[1]}")
 	hints=get_bio(format_author(author))
-
-	while available_guess>0:
+	msg="y"
+	while available_guess>0 and msg!="n":
 		user_guess=input(f"Who said this? Guesses remaining: {available_guess}.")
 		if user_guess.lower()==author.lower():
 			print("You guessed correctly! Congratulations!")
-			play_again()
+			msg=play_again()
 		else:
 			get_hint(available_guess,hints)
 			available_guess-=1
-			
-	print(f"The author was {author}")		
-	print("You lost")
-	play_again()		
+
+	print(f"The author was {author}")
+	if available_guess==0:		
+		print("You lost")
+	if msg!="n":	
+		msg=play_again()		
 
 def play_again():
 	msg=input("Would you like to play again(y/n)?")
@@ -33,6 +35,7 @@ def play_again():
 		play_game()
 	else:
 		print("Ok! See you next time!")
+		return msg
 
 def get_hint(guess,hints):
 	if guess==4:
